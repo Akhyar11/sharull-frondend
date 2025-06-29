@@ -1,10 +1,10 @@
 {
-  "lastUpdated": "2025-01-27T12:30:00Z",
+  "lastUpdated": "2025-01-27T13:30:00Z",
   "summary": {
     "totalTasks": 26,
-    "completed": 8,
+    "completed": 10,
     "inProgress": 1,
-    "pending": 17
+    "pending": 15
   },
   "tasks": [
     {
@@ -68,21 +68,21 @@
       "title": "Layar Registrasi (Register Screen)",
       "phase": "Alur Autentikasi & Publik",
       "priority": "high",
-      "status": "in-progress"
+      "status": "completed"
     },
     {
       "id": "2.1",
       "title": "Layout Utama Pelanggan (Bottom Tab Navigator)",
       "phase": "Alur Pelanggan",
       "priority": "medium",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "id": "2.2",
       "title": "Layar Beranda (Home Screen)",
       "phase": "Alur Pelanggan",
       "priority": "medium",
-      "status": "pending"
+      "status": "in-progress"
     },
     {
       "id": "2.3",
