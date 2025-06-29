@@ -1,10 +1,10 @@
 {
-  "lastUpdated": "2025-01-27T12:00:00Z",
+  "lastUpdated": "2025-01-27T12:30:00Z",
   "summary": {
     "totalTasks": 26,
-    "completed": 7,
+    "completed": 8,
     "inProgress": 1,
-    "pending": 18
+    "pending": 17
   },
   "tasks": [
     {
@@ -61,14 +61,14 @@
       "title": "Layar Login",
       "phase": "Alur Autentikasi & Publik",
       "priority": "high",
-      "status": "in-progress"
+      "status": "completed"
     },
     {
       "id": "1.4",
       "title": "Layar Registrasi (Register Screen)",
       "phase": "Alur Autentikasi & Publik",
       "priority": "high",
-      "status": "pending"
+      "status": "in-progress"
     },
     {
       "id": "2.1",
