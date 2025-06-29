@@ -12,6 +12,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import StatusTag from "@/components/ui/StatusTag";
+import PackageCard from "@/components/ui/PackageCard";
+import BookingSummaryCard from "@/components/ui/BookingSummaryCard";
+import TopAppBar from "@/components/ui/TopAppBar";
 
 export default function CustomerHomeScreen() {
   const { user, logout } = useAuth();
@@ -89,190 +93,127 @@ export default function CustomerHomeScreen() {
     });
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case "confirmed":
-        return "bg-green-100 text-green-800";
-      case "pending":
-        return "bg-yellow-100 text-yellow-800";
-      case "cancelled":
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
+  
 
   if (loading) {
     return (
-      <View className="flex-1 bg-gray-50 justify-center items-center">
+      <View className="flex-1 bg-background justify-center items-center">
         <ActivityIndicator size="large" color="#3B82F6" />
-        <Text className="text-gray-600 mt-4">Loading...</Text>
+        <Text className="text-text-secondary mt-4">Loading...</Text>
       </View>
     );
   }
 
   return (
     <ScrollView
-      className="flex-1 bg-gray-50"
+      className="flex-1 bg-background"
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
     >
+      <TopAppBar title="Home" />
       <View className="p-6">
         {/* Welcome Section */}
-        <View className="bg-white rounded-lg shadow-lg p-6 mb-6">
-          <Text className="text-2xl font-bold text-gray-800 mb-2">
+        <View className="bg-surface rounded-lg shadow-md p-6 mb-6">
+          <Text className="text-2xl font-bold text-text-primary mb-2">
             Welcome, {user?.name}!
           </Text>
-          <Text className="text-gray-600">
+          <Text className="text-text-secondary">
             Discover amazing travel packages and book your next adventure.
           </Text>
         </View>
 
         {/* Featured Packages Section */}
-        <View className="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <View className="bg-surface rounded-lg shadow-md p-6 mb-6">
           <View className="flex-row justify-between items-center mb-4">
-            <Text className="text-xl font-semibold text-gray-800">
+            <Text className="text-xl font-semibold text-text-primary">
               Featured Packages
             </Text>
             <TouchableOpacity onPress={() => router.push("/packages" as Href)}>
-              <Text className="text-primary-500 font-medium">View All</Text>
+              <Text className="text-primary font-medium">View All</Text>
             </TouchableOpacity>
           </View>
 
           {featuredPackages.length > 0 ? (
             <View className="space-y-4">
               {featuredPackages.map((pkg) => (
-                <TouchableOpacity
-                  key={pkg.id}
-                  className="bg-gray-50 rounded-lg p-4 border border-gray-200"
-                  onPress={() => router.push(`/packages/${pkg.id}` as Href)}
-                >
-                  <View className="flex-row space-x-4">
-                    {pkg.destinations.length > 0 &&
-                      pkg.destinations[0].image_id && (
-                        <Image
-                          source={{
-                            uri: `/file-proxy/${pkg.destinations[0].image_id}`,
-                          }}
-                          className="w-20 h-20 rounded-lg"
-                          resizeMode="cover"
-                        />
-                      )}
-                    <View className="flex-1">
-                      <Text className="text-lg font-semibold text-gray-800 mb-1">
-                        {pkg.name}
-                      </Text>
-                      <Text className="text-gray-600 text-sm mb-2">
-                        {pkg.destinations.map((d: Destination) => d.name).join(", ")}
-                      </Text>
-                      <Text className="text-primary-500 font-bold">
-                        {formatPrice(pkg.price)}
-                      </Text>
-                    </View>
-                  </View>
-                </TouchableOpacity>
+                <PackageCard key={pkg.id} pkg={pkg} />
               ))}
             </View>
           ) : (
-            <View className="bg-gray-50 rounded-lg p-6 items-center">
-              <Text className="text-gray-500 text-center mb-3">
+            <View className="bg-surface rounded-lg p-6 items-center">
+              <Text className="text-text-secondary text-center mb-3">
                 No packages available at the moment
               </Text>
               <TouchableOpacity
-                className="bg-primary-500 rounded-lg py-2 px-4"
+                className="bg-primary rounded-lg py-2 px-4"
                 onPress={() => router.push("/packages" as Href)}
               >
-                <Text className="text-white font-medium">Browse Packages</Text>
+                <Text className="text-text-primary font-medium">Browse Packages</Text>
               </TouchableOpacity>
             </View>
           )}
         </View>
 
         {/* Recent Bookings Section */}
-        <View className="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <View className="bg-surface rounded-lg shadow-md p-6 mb-6">
           <View className="flex-row justify-between items-center mb-4">
-            <Text className="text-xl font-semibold text-gray-800">
+            <Text className="text-xl font-semibold text-text-primary">
               Recent Bookings
             </Text>
             <TouchableOpacity onPress={() => router.push("/bookings" as Href)}>
-              <Text className="text-primary-500 font-medium">View All</Text>
+              <Text className="text-primary font-medium">View All</Text>
             </TouchableOpacity>
           </View>
 
           {recentBookings.length > 0 ? (
             <View className="space-y-4">
               {recentBookings.map((booking) => (
-                <View
-                  key={booking.id}
-                  className="bg-gray-50 rounded-lg p-4 border border-gray-200"
-                >
-                  <View className="flex-row justify-between items-start mb-2">
-                    <Text className="text-lg font-semibold text-gray-800">
-                      {booking.package_data.name}
-                    </Text>
-                    <View
-                      className={`px-2 py-1 rounded-full ${getStatusColor(
-                        booking.payment_status
-                      )}`}
-                    >
-                      <Text className="text-xs font-medium">
-                        {booking.payment_status}
-                      </Text>
-                    </View>
-                  </View>
-                  <Text className="text-gray-600 text-sm mb-2">
-                    {formatDate(booking.booking_date)} •{" "}
-                    {booking.number_of_seats} people
-                  </Text>
-                  <Text className="text-primary-500 font-bold">
-                    {formatPrice(booking.total_price)}
-                  </Text>
-                </View>
+                <BookingSummaryCard key={booking.id} booking={booking} />
               ))}
             </View>
           ) : (
-            <View className="bg-gray-50 rounded-lg p-6 items-center">
-              <Text className="text-gray-500 text-center mb-3">
+            <View className="bg-surface rounded-lg p-6 items-center">
+              <Text className="text-text-secondary text-center mb-3">
                 No bookings yet. Start exploring packages!
               </Text>
               <TouchableOpacity
-                className="bg-primary-500 rounded-lg py-2 px-4"
+                className="bg-primary rounded-lg py-2 px-4"
                 onPress={() => router.push("/packages" as Href)}
               >
-                <Text className="text-white font-medium">Explore Packages</Text>
+                <Text className="text-text-primary font-medium">Explore Packages</Text>
               </TouchableOpacity>
             </View>
           )}
         </View>
 
         {/* Quick Actions Section */}
-        <View className="bg-white rounded-lg shadow-lg p-6">
-          <Text className="text-xl font-semibold text-gray-800 mb-4">
+        <View className="bg-surface rounded-lg shadow-lg p-6">
+          <Text className="text-xl font-semibold text-text-primary mb-4">
             Quick Actions
           </Text>
           <View className="space-y-3">
             <TouchableOpacity
-              className="bg-secondary-100 rounded-lg py-3 px-4"
+              className="bg-primary rounded-lg py-3 px-4"
               onPress={() => router.push("/bookings" as Href)}
             >
-              <Text className="text-secondary-800 font-medium">
+              <Text className="text-text-primary font-medium">
                 View My Bookings
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              className="bg-secondary-100 rounded-lg py-3 px-4"
+              className="bg-primary rounded-lg py-3 px-4"
               onPress={() => router.push("/profile" as Href)}
             >
-              <Text className="text-secondary-800 font-medium">
+              <Text className="text-text-primary font-medium">
                 Update Profile
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              className="bg-red-500 rounded-lg py-3 px-4"
+              className="bg-error rounded-lg py-3 px-4"
               onPress={handleLogout}
             >
-              <Text className="text-white font-medium text-center">Logout</Text>
+              <Text className="text-text-primary font-medium text-center">Logout</Text>
             </TouchableOpacity>
           </View>
         </View>

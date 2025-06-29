@@ -1,18 +1,26 @@
-import { View, Text, Button } from 'react-native';
+import { View, Text } from 'react-native';
+import Button from '@/components/ui/Button';
+import TopAppBar from '@/components/ui/TopAppBar';
 import { useAuth } from '@/context/AuthContext';
-import { Stack } from 'expo-router';
+
 
 export default function LoginScreen() {
   const { login } = useAuth();
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Stack.Screen options={{ headerShown: false }} />
-      <Text className="text-2xl font-bold mb-4">Login</Text>
+    <View className="flex-1 justify-center items-center bg-background">
+      <TopAppBar title="Login" />
+      <Text className="text-2xl font-bold mt-4 mb-4 text-text-primary">Login</Text>
       <View className="mb-4">
-        <Button title="Login as Customer" onPress={() => login('customer@example.com', 'password123')} />
+        <Button
+          title="Login as Customer"
+          onPress={() => login('customer@example.com', 'password123')}
+        />
       </View>
-      <Button title="Login as Admin" onPress={() => login('admin@example.com', 'adminpassword')} />
+      <Button
+        title="Login as Admin"
+        onPress={() => login('admin@example.com', 'adminpassword')}
+      />
     </View>
   );
 }

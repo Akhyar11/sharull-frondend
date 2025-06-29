@@ -40,6 +40,34 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
         }}
       />
+      <Tabs.Screen
+        name="bookings/create"
+        options={{
+          href: null, // Hide this tab from the tab bar
+          headerShown: false, // Hide header for this screen
+        }}
+      />
+      <Tabs.Screen
+        name="bookings/index"
+        options={{
+          title: 'My Bookings',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="calendar.badge.plus" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="bookings/[id]"
+        options={{
+          href: null, // Hide this tab from the tab bar
+          headerShown: false, // Hide header for this screen
+        }}
+      />
+      <Tabs.Screen
+        name="payments/create"
+        options={{
+          href: null, // Hide this tab from the tab bar
+          headerShown: false, // Hide header for this screen
+        }}
+      />
     </Tabs>
   );
 }

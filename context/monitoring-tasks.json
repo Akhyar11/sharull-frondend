@@ -1,10 +1,10 @@
 {
-  "lastUpdated": "2025-06-29T11:00:00Z",
+  "lastUpdated": "2025-06-29T11:45:00Z",
   "summary": {
     "totalTasks": 27,
-    "completed": 12,
-    "inProgress": 0,
-    "pending": 15
+    "completed": 16,
+    "inProgress": 1,
+    "pending": 10
   },
   "tasks": [
     {
@@ -89,35 +89,35 @@
       "title": "Layar Detail Paket",
       "phase": "Alur Pelanggan",
       "priority": "medium",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "id": "2.4",
       "title": "Alur Pemesanan (Booking Flow)",
       "phase": "Alur Pelanggan",
       "priority": "medium",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "id": "2.5",
       "title": "Layar Pemesanan Saya (My Bookings Screen)",
       "phase": "Alur Pelanggan",
       "priority": "medium",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "id": "2.6",
       "title": "Layar Detail Pemesanan",
       "phase": "Alur Pelanggan",
       "priority": "medium",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "id": "2.7",
       "title": "Alur Pembayaran (Payment Flow)",
       "phase": "Alur Pelanggan",
       "priority": "medium",
-      "status": "pending"
+      "status": "in-progress"
     },
     {
       "id": "2.8",

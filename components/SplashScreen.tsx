@@ -39,7 +39,7 @@ export default function SplashScreen() {
   }, [checkAuthStatus, fadeAnim, scaleAnim, slideAnim]);
 
   return (
-    <View className="flex-1 bg-gradient-to-b from-primary-500 to-primary-700 justify-center items-center">
+    <View className="flex-1 bg-background justify-center items-center">
       <Animated.View
         style={{
           opacity: fadeAnim,
@@ -49,14 +49,14 @@ export default function SplashScreen() {
       >
         {/* Logo Container */}
         <View className="w-32 h-32 bg-white rounded-full items-center justify-center mb-6 shadow-lg">
-          <Text className="text-4xl font-bold text-primary-600">🚌</Text>
+          <Text className="text-4xl font-bold text-primary">🚌</Text>
         </View>
 
         {/* App Name */}
-        <Text className="text-4xl font-bold text-white mb-2">KATS</Text>
+        <Text className="text-4xl font-bold text-text-primary mb-2">KATS</Text>
 
         {/* Tagline */}
-        <Text className="text-lg text-white/80 text-center px-8">
+        <Text className="text-lg text-text-primary/80 text-center px-6">
           Your Journey, Our Service
         </Text>
       </Animated.View>
@@ -67,13 +67,12 @@ export default function SplashScreen() {
         className="absolute bottom-20"
       >
         <View className="flex-row space-x-2">
-          <View className="w-3 h-3 bg-white/60 rounded-full animate-pulse" />
-          <View
-            className="w-3 h-3 bg-white/60 rounded-full animate-pulse"
+          <View className="w-3 h-3 bg-text-primary/60 rounded-full animate-pulse" />
+          <View className="w-3 h-3 bg-text-primary/60 rounded-full animate-pulse"
             style={{ animationDelay: "0.2s" }}
           />
           <View
-            className="w-3 h-3 bg-white/60 rounded-full animate-pulse"
+            className="w-3 h-3 bg-text-primary/60 rounded-full animate-pulse"
             style={{ animationDelay: "0.4s" }}
           />
         </View>
@@ -84,7 +83,7 @@ export default function SplashScreen() {
         style={{ opacity: fadeAnim }}
         className="absolute bottom-8"
       >
-        <Text className="text-white/60 text-sm">Version 1.0.0</Text>
+        <Text className="text-text-primary/60 text-sm">Version 1.0.0</Text>
       </Animated.View>
     </View>
   );
