@@ -14,7 +14,6 @@
     ],
     "folderStructure": {
       "store": "/store (Semua state management non-global/fitur spesifik)",
-      "context": "/context (Untuk state global aplikasi. Berisi semua context yang membantu AI memahami alur aplikasi, seperti otentikasi, informasi pengguna, dan tema).",
       "components": "/components (Komponen reusable)",
       "pages": "/pages atau /app (Halaman utama)",
       "utils": "/utils (untuk function reuseable)"

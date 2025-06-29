@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import api from "../services/api";
 import React, {
   createContext,
   ReactNode,
@@ -108,18 +109,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const validateToken = async (token: string): Promise<boolean> => {
     try {
-      // TODO: Replace with actual token validation API call
-      // const response = await fetch('/api/validate-token', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     'Authorization': `Bearer ${token}`
-      //   },
-      // });
-      // return response.ok;
-
-      // For now, simulate token validation
-      return token.length > 10; // Simple validation
+      try {
+      const response = await api.get('/user/profile');
+      return response.status === 200;
     } catch (error) {
       console.error("Token validation error:", error);
       return false;
@@ -160,21 +152,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       const updatedUser = { ...user, ...userData };
 
-      // TODO: Replace with actual API call to update user profile
-      // const response = await fetch('/api/user/profile', {
-      //   method: 'PUT',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     'Authorization': `Bearer ${token}`
-      //   },
-      //   body: JSON.stringify(userData),
-      // });
+      const response = await api.put('/user/profile', userData);
 
-      // For now, just update local state
-      await AsyncStorage.setItem("userData", JSON.stringify(updatedUser));
-      setUser(updatedUser);
-
-      return true;
+      if (response.status === 200) {
+        await AsyncStorage.setItem("userData", JSON.stringify(updatedUser));
+        setUser(updatedUser);
+        return true;
+      } else {
+        return false;
+      }
     } catch (error) {
       console.error("Profile update error:", error);
       return false;
@@ -186,33 +172,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(true);
       setError(null);
 
-      // TODO: Replace with actual API call
-      // const response = await fetch('/api/login', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ email, password }),
-      // });
+      try {
+        const response = await api.post('/login', { email, password });
 
-      // Simulate API response for now
-      const mockResponse = {
-        success: true,
-        data: {
-          token: "mock-jwt-token-" + Date.now(),
-          user: {
-            id: "1",
-            name: "John Doe",
-            email: email,
-            role: "customer" as UserRole,
-            phone: "+1234567890",
-            avatar: null,
-            createdAt: new Date().toISOString(),
-            lastLogin: new Date().toISOString(),
-          },
-        },
-      };
-
-      if (mockResponse.success) {
-        const { token: newToken, user: userData } = mockResponse.data;
+        if (response.data.token && response.data.data) {
+          const { token: newToken, data: userData } = response.data;
 
         await AsyncStorage.setItem("authToken", newToken);
         await AsyncStorage.setItem("userData", JSON.stringify(userData));
@@ -222,13 +186,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         return { success: true, message: "Login successful" };
       } else {
-        const errorMessage = "Invalid credentials";
+        const errorMessage = response.data.msg || "Invalid credentials";
         setError(errorMessage);
         return { success: false, message: errorMessage };
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login error:", error);
-      const errorMessage = "Login failed. Please try again.";
+      const errorMessage = error.response?.data?.msg || "Login failed. Please try again.";
       setError(errorMessage);
       return { success: false, message: errorMessage };
     } finally {
@@ -241,33 +205,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(true);
       setError(null);
 
-      // TODO: Replace with actual API call
-      // const response = await fetch('/api/register', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(userData),
-      // });
+      try {
+        const response = await api.post('/register', userData);
 
-      // Simulate API response for now
-      const mockResponse = {
-        success: true,
-        data: {
-          token: "mock-jwt-token-" + Date.now(),
-          user: {
-            id: "1",
-            name: userData.name,
-            email: userData.email,
-            role: "customer" as UserRole,
-            phone: userData.phone,
-            avatar: null,
-            createdAt: new Date().toISOString(),
-            lastLogin: new Date().toISOString(),
-          },
-        },
-      };
-
-      if (mockResponse.success) {
-        const { token: newToken, user: newUser } = mockResponse.data;
+        if (response.data.token && response.data.data) {
+          const { token: newToken, data: newUser } = response.data;
 
         await AsyncStorage.setItem("authToken", newToken);
         await AsyncStorage.setItem("userData", JSON.stringify(newUser));
@@ -277,13 +219,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         return { success: true, message: "Registration successful" };
       } else {
-        const errorMessage = "Registration failed";
+        const errorMessage = response.data.msg || "Registration failed";
         setError(errorMessage);
         return { success: false, message: errorMessage };
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Registration error:", error);
-      const errorMessage = "Registration failed. Please try again.";
+      const errorMessage = error.response?.data?.msg || "Registration failed. Please try again.";
       setError(errorMessage);
       return { success: false, message: errorMessage };
     } finally {

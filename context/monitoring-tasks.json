@@ -1,8 +1,8 @@
 {
-  "lastUpdated": "2025-06-29T00:00:00Z",
+  "lastUpdated": "2025-06-29T10:30:00Z",
   "summary": {
-    "totalTasks": 26,
-    "completed": 10,
+    "totalTasks": 27,
+    "completed": 11,
     "inProgress": 1,
     "pending": 15
   },
@@ -188,6 +188,13 @@
       "phase": "Komponen Umum & Finalisasi",
       "priority": "medium",
       "status": "pending"
+    },
+    {
+      "id": "4.5",
+      "title": "Perbaikan Linter",
+      "phase": "Komponen Umum & Finalisasi",
+      "priority": "low",
+      "status": "completed"
     }
   ]
 }
