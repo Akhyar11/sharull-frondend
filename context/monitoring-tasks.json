@@ -1,10 +1,10 @@
 {
-  "lastUpdated": "2025-01-27T10:00:00Z",
+  "lastUpdated": "2025-01-27T10:30:00Z",
   "summary": {
     "totalTasks": 26,
-    "completed": 3,
+    "completed": 4,
     "inProgress": 1,
-    "pending": 22
+    "pending": 21
   },
   "tasks": [
     {
@@ -19,7 +19,7 @@
       "title": "Integrasi Tailwind CSS",
       "phase": "Penyiapan Proyek & Fondasi",
       "priority": "high",
-      "status": "in-progress"
+      "status": "completed"
     },
     {
       "id": "0.3",
@@ -40,7 +40,7 @@
       "title": "Implementasi Alur Berbasis Peran (Role-Based Routing)",
       "phase": "Penyiapan Proyek & Fondasi",
       "priority": "high",
-      "status": "pending"
+      "status": "in-progress"
     },
     {
       "id": "1.1",
