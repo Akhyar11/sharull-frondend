@@ -1,10 +1,10 @@
 {
-  "lastUpdated": "2025-06-29T07:32:00Z",
+  "lastUpdated": "2025-01-27T10:00:00Z",
   "summary": {
     "totalTasks": 26,
-    "completed": 0,
+    "completed": 3,
     "inProgress": 1,
-    "pending": 25
+    "pending": 22
   },
   "tasks": [
     {
@@ -12,28 +12,28 @@
       "title": "Inisialisasi Proyek Expo",
       "phase": "Penyiapan Proyek & Fondasi",
       "priority": "high",
-      "status": "in-progress"
+      "status": "completed"
     },
     {
       "id": "0.2",
       "title": "Integrasi Tailwind CSS",
       "phase": "Penyiapan Proyek & Fondasi",
       "priority": "high",
-      "status": "pending"
+      "status": "in-progress"
     },
     {
       "id": "0.3",
       "title": "Struktur Folder Proyek",
       "phase": "Penyiapan Proyek & Fondasi",
       "priority": "high",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "id": "0.4",
       "title": "Konfigurasi Navigasi (React Navigation)",
       "phase": "Penyiapan Proyek & Fondasi",
       "priority": "high",
-      "status": "pending"
+      "status": "completed"
     },
     {
       "id": "0.5",
