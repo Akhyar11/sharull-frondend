@@ -1,0 +1,290 @@
+{
+  "appName": "KATS Booking App",
+  "designSystem": {
+    "description": "Panduan desain untuk memastikan konsistensi visual dan fungsionalitas di seluruh aplikasi, baik untuk alur pengguna maupun admin.",
+    "colorPalette": {
+      "primary": {
+        "main": "#3D7BFF",
+        "description": "Warna utama untuk tombol aksi, tautan, dan elemen interaktif utama."
+      },
+      "background": {
+        "dark": "#0A101A",
+        "description": "Warna latar belakang utama aplikasi."
+      },
+      "surface": {
+        "main": "#182233",
+        "description": "Warna untuk permukaan kartu (cards), input fields, dan modal."
+      },
+      "text": {
+        "primary": "#FFFFFF",
+        "secondary": "#B0B8C4",
+        "accent": "#FDB913"
+      },
+      "utility": {
+        "success": "#4CAF50",
+        "warning": "#FFC107",
+        "error": "#F44336",
+        "info": "#2196F3",
+        "description": "Warna status. success: paid/approved, warning: pending, error: cancelled/rejected, info: status netral."
+      }
+    },
+    "typography": {
+      "fontFamily": "Sans-Serif",
+      "styles": [
+        { "name": "ScreenTitle", "fontSize": "22pt", "fontWeight": "bold" },
+        { "name": "CardTitle", "fontSize": "18pt", "fontWeight": "medium" },
+        { "name": "Body", "fontSize": "16pt", "fontWeight": "regular" },
+        { "name": "Label", "fontSize": "14pt", "fontWeight": "regular" },
+        { "name": "Price", "fontSize": "20pt", "fontWeight": "bold" },
+        { "name": "Tag", "fontSize": "12pt", "fontWeight": "medium" }
+      ]
+    },
+    "spacing": {
+      "baseUnit": "8px",
+      "padding": "8px, 16px, 24px",
+      "margin": "8px, 16px, 24px"
+    },
+    "borderRadius": { "small": "8px", "medium": "12px", "large": "16px" }
+  },
+  "components": {
+    "description": "Kumpulan komponen UI yang dapat digunakan kembali.",
+    "UserFacing": {
+      "PackageCard": {
+        "description": "Menampilkan ringkasan paket perjalanan di layar utama.",
+        "properties": [
+          "imageUrl",
+          "name",
+          "price",
+          "destinationCount",
+          "average_rating"
+        ]
+      },
+      "ScheduleCard": {
+        "description": "Menampilkan satu jadwal yang tersedia untuk sebuah paket.",
+        "properties": [
+          "departure_date",
+          "return_date",
+          "available_seats",
+          "fleet_type",
+          "fleet_name"
+        ]
+      },
+      "BookingSummaryCard": {
+        "description": "Menampilkan ringkasan pemesanan pengguna di halaman 'My Bookings'.",
+        "properties": [
+          "packageName",
+          "booking_date",
+          "total_price",
+          "payment_status"
+        ]
+      },
+      "PaymentMethodPill": {
+        "description": "Pilihan metode pembayaran.",
+        "properties": ["methodName", "provider", "account_number"],
+        "states": ["selected", "unselected"]
+      },
+      "StatusTag": {
+        "description": "Label berwarna untuk menampilkan status.",
+        "properties": ["text", "type ('success'|'warning'|'error'|'info')"]
+      }
+    },
+    "AdminFacing": {
+      "DataTable": {
+        "description": "Tabel untuk menampilkan daftar data (CRUD) di panel admin.",
+        "properties": [
+          "columns",
+          "dataRows",
+          "paginationControls",
+          "filterControls"
+        ]
+      },
+      "DataTableRow": {
+        "description": "Satu baris data dalam DataTable, termasuk kolom aksi (Edit, Delete).",
+        "properties": ["rowData", "actionButtons"]
+      },
+      "AdminForm": {
+        "description": "Formulir generik untuk operasi Create/Update di panel admin.",
+        "properties": [
+          "fields (array of InputField, Select, TextArea, FileUpload)"
+        ]
+      },
+      "StatCard": {
+        "description": "Kartu untuk menampilkan statistik kunci di dashboard admin.",
+        "properties": ["title", "value", "icon"]
+      }
+    },
+    "Common": ["Button", "InputField", "TopAppBar", "BottomNavBar"]
+  },
+  "screenTemplates": {
+    "description": "Contoh arsitektur layar berdasarkan alur pengguna dan API.",
+    "publicFlow": {
+      "LoginScreen": {
+        "components": [
+          "TopAppBar",
+          "InputField (email)",
+          "InputField (password)",
+          "Button (Login)"
+        ],
+        "notes": "Desain mengikuti tema. Login ini bisa untuk admin dan customer, sistem akan me-redirect berdasarkan peran."
+      },
+      "RegisterScreen": {
+        "components": [
+          "TopAppBar",
+          "InputField (name)",
+          "InputField (email)",
+          "InputField (password)",
+          "InputField (phone)",
+          "Button (Register)"
+        ]
+      }
+    },
+    "userFlow": {
+      "HomeScreen": {
+        "components": [
+          "TopAppBar (dengan fungsi Search)",
+          "PackageCard (list)",
+          "BottomNavBar"
+        ],
+        "notes": "Layar utama setelah login, menampilkan daftar paket. 'Featured' packages bisa ditampilkan di bagian atas."
+      },
+      "PackageDetailScreen": {
+        "components": [
+          "TopAppBar",
+          "ImageCarousel (dari gallery)",
+          "PackageInfo",
+          "DestinationList",
+          "ScheduleCard (list)",
+          "Button (Pilih Jadwal & Pesan)"
+        ]
+      },
+      "BookingConfirmationScreen": {
+        "components": [
+          "TopAppBar",
+          "BookingSummary",
+          "InputField (number_of_people)",
+          "InputField (notes)",
+          "Button (Konfirmasi Pesanan)"
+        ]
+      },
+      "MyBookingsScreen": {
+        "components": ["TopAppBar", "BookingSummaryCard (list)", "BottomNavBar"]
+      },
+      "BookingDetailScreen": {
+        "components": [
+          "TopAppBar",
+          "FullBookingDetails",
+          "PaymentHistory",
+          "Button (Lakukan Pembayaran jika status pending)"
+        ]
+      },
+      "PaymentScreen": {
+        "components": [
+          "TopAppBar",
+          "BookingSummary",
+          "PaymentMethodPill (list)",
+          "FileUpload (untuk bukti bayar)",
+          "Button (Kirim Bukti Pembayaran)"
+        ]
+      },
+      "ProfileScreen": {
+        "components": [
+          "TopAppBar",
+          "UserProfileCard (dengan foto)",
+          "Button (Edit Profil)",
+          "BottomNavBar"
+        ]
+      }
+    },
+    "adminFlow": {
+      "AdminLayout": {
+        "components": [
+          "AdminSideNav",
+          "TopAppBar (dengan judul halaman)",
+          "MainContentArea"
+        ],
+        "notes": "Layout dasar untuk semua halaman admin, menggunakan navigasi samping."
+      },
+      "AdminDashboard": {
+        "layout": "AdminLayout",
+        "components": [
+          "StatCard (Total Users)",
+          "StatCard (Total Bookings)",
+          "StatCard (Pending Payments)",
+          "DataTable (Recent Bookings)"
+        ]
+      },
+      "AdminCRUD_Screen": {
+        "layout": "AdminLayout",
+        "components": ["FilterPanel", "Button (Tambah Data Baru)", "DataTable"],
+        "notes": "Template generik untuk manajemen User, Destinasi, Paket, Armada, Jadwal, dll. Modal/halaman baru akan berisi 'AdminForm' untuk create/edit."
+      },
+      "AdminPaymentApprovalScreen": {
+        "layout": "AdminLayout",
+        "components": ["DataTable (Daftar Pembayaran)"],
+        "notes": "Setiap baris di tabel pembayaran akan memiliki tombol 'Lihat Bukti', 'Setujui', dan 'Tolak'."
+      }
+    }
+  },
+  "dataMapping": {
+    "description": "Menghubungkan endpoint API ke komponen dan layar UI.",
+    "endpoints": [
+      {
+        "endpoint": "GET /api/user/packages",
+        "mapsToScreen": "userFlow.HomeScreen",
+        "dataToComponent": {
+          "list[*]": {
+            "component": "UserFacing.PackageCard",
+            "fields": {
+              "name": "name",
+              "price": "price",
+              "destinations": "destinationCount",
+              "average_rating": "average_rating",
+              "image_id": "imageUrl (via GET /api/file-proxy/fk/singel/:id)"
+            }
+          }
+        }
+      },
+      {
+        "endpoint": "GET /api/user/packages/:id",
+        "mapsToScreen": "userFlow.PackageDetailScreen",
+        "notes": "Data dari endpoint ini mengisi info paket. Layar ini juga memanggil GET /api/user/packages/:id/schedules untuk mengisi daftar 'ScheduleCard'."
+      },
+      {
+        "endpoint": "POST /api/user/bookings",
+        "mapsToScreen": "userFlow.BookingConfirmationScreen",
+        "notes": "Data dari form di layar ini digunakan sebagai body request."
+      },
+      {
+        "endpoint": "GET /api/user/bookings",
+        "mapsToScreen": "userFlow.MyBookingsScreen",
+        "dataToComponent": {
+          "list[*]": {
+            "component": "UserFacing.BookingSummaryCard",
+            "fields": {
+              "package_data.name": "packageName",
+              "booking_date": "booking_date",
+              "total_price": "total_price",
+              "payment_status": "payment_status"
+            }
+          }
+        }
+      },
+      {
+        "endpoint": "GET /api/admin/users/list",
+        "mapsToScreen": "adminFlow.AdminCRUD_Screen (untuk User)",
+        "dataToComponent": {
+          "list[*]": {
+            "component": "AdminFacing.DataTableRow",
+            "fields": ["id", "name", "email", "phone", "role"]
+          }
+        }
+      }
+    ]
+  },
+  "aiInstructions": {
+    "consistency": "Selalu gunakan nilai dari `designSystem`. Semua elemen baru harus terasa seperti bagian dari keluarga desain yang sama.",
+    "flexibility": "Gunakan `components` sebagai blok bangunan. Gabungkan mereka dalam `screenTemplates` untuk membuat alur yang fungsional.",
+    "roleBasedUI": "Bedakan dengan jelas antara UI untuk 'userFlow' dan 'adminFlow'. UI Pengguna harus simpel dan fokus pada tugas. UI Admin harus padat informasi dan efisien untuk manajemen data, utamakan penggunaan `DataTable` dan `AdminForm`.",
+    "dataBinding": "Gunakan bagian `dataMapping` sebagai panduan utama. Saat merancang komponen, pastikan propertinya cocok dengan field data dari API yang sesuai. Contoh: `PackageCard` harus memiliki properti untuk menampilkan `name`, `price`, dan `image_id` dari API paket."
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "lastUpdated": "2025-06-29T07:32:00Z",
+  "summary": {
+    "totalTasks": 26,
+    "completed": 0,
+    "inProgress": 1,
+    "pending": 25
+  },
+  "tasks": [
+    {
+      "id": "0.1",
+      "title": "Inisialisasi Proyek Expo",
+      "phase": "Penyiapan Proyek & Fondasi",
+      "priority": "high",
+      "status": "in-progress"
+    },
+    {
+      "id": "0.2",
+      "title": "Integrasi Tailwind CSS",
+      "phase": "Penyiapan Proyek & Fondasi",
+      "priority": "high",
+      "status": "pending"
+    },
+    {
+      "id": "0.3",
+      "title": "Struktur Folder Proyek",
+      "phase": "Penyiapan Proyek & Fondasi",
+      "priority": "high",
+      "status": "pending"
+    },
+    {
+      "id": "0.4",
+      "title": "Konfigurasi Navigasi (React Navigation)",
+      "phase": "Penyiapan Proyek & Fondasi",
+      "priority": "high",
+      "status": "pending"
+    },
+    {
+      "id": "0.5",
+      "title": "Implementasi Alur Berbasis Peran (Role-Based Routing)",
+      "phase": "Penyiapan Proyek & Fondasi",
+      "priority": "high",
+      "status": "pending"
+    },
+    {
+      "id": "1.1",
+      "title": "Layar Splash (Splash Screen)",
+      "phase": "Alur Autentikasi & Publik",
+      "priority": "high",
+      "status": "pending"
+    },
+    {
+      "id": "1.2",
+      "title": "State Management untuk Autentikasi",
+      "phase": "Alur Autentikasi & Publik",
+      "priority": "high",
+      "status": "pending"
+    },
+    {
+      "id": "1.3",
+      "title": "Layar Login",
+      "phase": "Alur Autentikasi & Publik",
+      "priority": "high",
+      "status": "pending"
+    },
+    {
+      "id": "1.4",
+      "title": "Layar Registrasi (Register Screen)",
+      "phase": "Alur Autentikasi & Publik",
+      "priority": "high",
+      "status": "pending"
+    },
+    {
+      "id": "2.1",
+      "title": "Layout Utama Pelanggan (Bottom Tab Navigator)",
+      "phase": "Alur Pelanggan",
+      "priority": "medium",
+      "status": "pending"
+    },
+    {
+      "id": "2.2",
+      "title": "Layar Beranda (Home Screen)",
+      "phase": "Alur Pelanggan",
+      "priority": "medium",
+      "status": "pending"
+    },
+    {
+      "id": "2.3",
+      "title": "Layar Detail Paket",
+      "phase": "Alur Pelanggan",
+      "priority": "medium",
+      "status": "pending"
+    },
+    {
+      "id": "2.4",
+      "title": "Alur Pemesanan (Booking Flow)",
+      "phase": "Alur Pelanggan",
+      "priority": "medium",
+      "status": "pending"
+    },
+    {
+      "id": "2.5",
+      "title": "Layar Pemesanan Saya (My Bookings Screen)",
+      "phase": "Alur Pelanggan",
+      "priority": "medium",
+      "status": "pending"
+    },
+    {
+      "id": "2.6",
+      "title": "Layar Detail Pemesanan",
+      "phase": "Alur Pelanggan",
+      "priority": "medium",
+      "status": "pending"
+    },
+    {
+      "id": "2.7",
+      "title": "Alur Pembayaran (Payment Flow)",
+      "phase": "Alur Pelanggan",
+      "priority": "medium",
+      "status": "pending"
+    },
+    {
+      "id": "2.8",
+      "title": "Layar Profil",
+      "phase": "Alur Pelanggan",
+      "priority": "medium",
+      "status": "pending"
+    },
+    {
+      "id": "3.1",
+      "title": "Layout Utama Admin",
+      "phase": "Alur Admin",
+      "priority": "low",
+      "status": "pending"
+    },
+    {
+      "id": "3.2",
+      "title": "Komponen Generik Admin",
+      "phase": "Alur Admin",
+      "priority": "low",
+      "status": "pending"
+    },
+    {
+      "id": "3.3",
+      "title": "Layar Dashboard Admin",
+      "phase": "Alur Admin",
+      "priority": "low",
+      "status": "pending"
+    },
+    {
+      "id": "3.4",
+      "title": "Manajemen CRUD",
+      "phase": "Alur Admin",
+      "priority": "low",
+      "status": "pending"
+    },
+    {
+      "id": "3.5",
+      "title": "Manajemen Pembayaran",
+      "phase": "Alur Admin",
+      "priority": "low",
+      "status": "pending"
+    },
+    {
+      "id": "4.1",
+      "title": "Library Komponen UI",
+      "phase": "Komponen Umum & Finalisasi",
+      "priority": "medium",
+      "status": "pending"
+    },
+    {
+      "id": "4.2",
+      "title": "Penanganan Notifikasi (Opsional)",
+      "phase": "Komponen Umum & Finalisasi",
+      "priority": "low",
+      "status": "pending"
+    },
+    {
+      "id": "4.3",
+      "title": "Pengujian Menyeluruh (End-to-End Testing)",
+      "phase": "Komponen Umum & Finalisasi",
+      "priority": "medium",
+      "status": "pending"
+    },
+    {
+      "id": "4.4",
+      "title": "Build & Deploy",
+      "phase": "Komponen Umum & Finalisasi",
+      "priority": "medium",
+      "status": "pending"
+    }
+  ]
+}

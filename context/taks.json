@@ -1,0 +1,418 @@
+{
+  "projectName": "Aplikasi Booking App (React Native)",
+  "aiPromptRules": {
+    "language": {
+      "explanation": "Gunakan bahasa Indonesia untuk semua penjelasan dan instruksi.",
+      "code": "Gunakan bahasa Inggris untuk semua kode."
+    },
+    "assumptions": "Jangan ber-asumsi secara mandiri, pastikan seluruh keputusan berdasarkan data yang ada.",
+    "packageReference": "Pastikan mereferensi ke package.json untuk mengetahui support package dalam project.",
+    "workflowOrder": [
+      "Create Store terlebih dahulu.",
+      "Create Component jika diperlukan.",
+      "Create Page terakhir setelah store dan komponen siap."
+    ],
+    "folderStructure": {
+      "store": "/store (Semua state management non-global/fitur spesifik)",
+      "context": "/context (Untuk state global aplikasi. Berisi semua context yang membantu AI memahami alur aplikasi, seperti otentikasi, informasi pengguna, dan tema).",
+      "components": "/components (Komponen reusable)",
+      "pages": "/pages atau /app (Halaman utama)",
+      "utils": "/utils (untuk function reuseable)"
+    },
+    "fileNaming": {
+      "store": "camelCase atau useCamelCase.js atau useCamelCase.ts",
+      "component": "PascalCase, contoh: MyComponent.jsx atau MyComponent.tsx"
+    },
+    "errorHandling": "Jika ada error pada kode, AI wajib memperbaiki sebelum melanjutkan.",
+    "gitInstructions": {
+      "description": "Setelah semua selesai, AI akan memberikan instruksi git untuk commit dan push.",
+      "commands": [
+        "git add .",
+        "git commit -m \"[your message one line]\"",
+        "git push"
+      ]
+    },
+    "dependencyChecks": "AI wajib memastikan semua dependency atau import sudah sesuai.",
+    "contextApiUsage": "Jika project memiliki context API, AI harus membaca context-api.txt sebelum mulai membuat kode.",
+    "contextFolderReference": "Selalu referensikan dan gunakan folder /context untuk semua state management yang bersifat global seperti otentikasi, informasi pengguna, dan tema aplikasi.",
+    "finalOutput": "Berikan hasil akhir secara lengkap, termasuk struktur folder dan file."
+  },
+  "phases": [
+    {
+      "phaseId": 0,
+      "phaseName": "Penyiapan Proyek & Fondasi (Project Setup & Foundation)",
+      "tasks": [
+        {
+          "id": "0.1",
+          "title": "Inisialisasi Proyek Expo",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Buat proyek baru menggunakan `npx create-expo-app .`.",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "0.2",
+          "title": "Integrasi Tailwind CSS",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Instal `nativewind` dan `tailwindcss`.",
+              "completed": false
+            },
+            {
+              "description": "Konfigurasi file `tailwind.config.js` dan `babel.config.js`.",
+              "completed": false
+            },
+            {
+              "description": "Terapkan *global style wrapper* di `App.js`.",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "0.3",
+          "title": "Struktur Folder Proyek",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Buat struktur folder yang jelas: /app, /components, /assets, /utils, /context, /store.",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "0.4",
+          "title": "Konfigurasi Navigasi (React Navigation)",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Instal `react-navigation` (Native, Stack, Bottom Tabs, Drawer).",
+              "completed": false
+            },
+            {
+              "description": "Buat file navigator utama (`/app/_layout.js` jika menggunakan Expo Router).",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "0.5",
+          "title": "Implementasi Alur Berbasis Peran (Role-Based Routing)",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Buat logika untuk memeriksa peran pengguna saat aplikasi dimuat.",
+              "completed": false
+            },
+            {
+              "description": "Atur navigator untuk menampilkan layar yang berbeda berdasarkan peran (Auth, Customer, Admin).",
+              "completed": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "phaseId": 1,
+      "phaseName": "Alur Autentikasi & Publik (Authentication & Public Flow)",
+      "tasks": [
+        {
+          "id": "1.1",
+          "title": "Layar Splash (Splash Screen)",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Desain layar pembuka yang menampilkan logo aplikasi.",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "1.2",
+          "title": "State Management untuk Autentikasi",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Implementasikan state global (Context API) di folder /context untuk token, data pengguna, dan status login.",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "1.3",
+          "title": "Layar Login",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Buat UI untuk input email dan password.",
+              "completed": false
+            },
+            {
+              "description": "Integrasikan dengan API `POST /api/login`.",
+              "completed": false
+            },
+            {
+              "description": "Tangani respons sukses dan error.",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "1.4",
+          "title": "Layar Registrasi (Register Screen)",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Buat UI untuk input nama, email, password, dan telepon.",
+              "completed": false
+            },
+            {
+              "description": "Integrasikan dengan API `POST /api/register`.",
+              "completed": false
+            },
+            {
+              "description": "Tangani respons sukses dan error.",
+              "completed": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "phaseId": 2,
+      "phaseName": "Alur Pelanggan (Customer Flow)",
+      "tasks": [
+        {
+          "id": "2.1",
+          "title": "Layout Utama Pelanggan (Bottom Tab Navigator)",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Buat navigator tab bawah untuk: Home, My Bookings, Profile.",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "2.2",
+          "title": "Layar Beranda (Home Screen)",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Tampilkan daftar paket perjalanan dari `GET /api/user/packages`.",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "2.3",
+          "title": "Layar Detail Paket",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Tampilkan detail paket dan daftar jadwalnya.",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "2.4",
+          "title": "Alur Pemesanan (Booking Flow)",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Buat layar konfirmasi dan integrasikan dengan `POST /api/user/bookings`.",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "2.5",
+          "title": "Layar Pemesanan Saya (My Bookings Screen)",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Tampilkan riwayat pemesanan dari `GET /api/user/bookings`.",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "2.6",
+          "title": "Layar Detail Pemesanan",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Tampilkan detail lengkap dan tombol untuk membayar jika tertunda.",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "2.7",
+          "title": "Alur Pembayaran (Payment Flow)",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Buat layar untuk memilih metode, unggah bukti, dan kirim ke `POST /api/user/payments`.",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "2.8",
+          "title": "Layar Profil",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Tampilkan dan sediakan fungsionalitas edit profil.",
+              "completed": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "phaseId": 3,
+      "phaseName": "Alur Admin (Admin Flow)",
+      "tasks": [
+        {
+          "id": "3.1",
+          "title": "Layout Utama Admin",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Buat navigator yang sesuai untuk admin (misal: Drawer).",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "3.2",
+          "title": "Komponen Generik Admin",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Buat komponen `DataTable` dan `AdminForm`.",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "3.3",
+          "title": "Layar Dashboard Admin",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Tampilkan kartu statistik dan data relevan.",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "3.4",
+          "title": "Manajemen CRUD",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Manajemen Pengguna: `/api/admin/users`.",
+              "completed": false
+            },
+            {
+              "description": "Manajemen Destinasi: `/api/admin/destination`.",
+              "completed": false
+            },
+            {
+              "description": "Manajemen Paket: `/api/admin/packages`.",
+              "completed": false
+            },
+            {
+              "description": "Manajemen Armada: `/api/admin/fleets`.",
+              "completed": false
+            },
+            {
+              "description": "Manajemen Jadwal: `/api/admin/packageschedules`.",
+              "completed": false
+            },
+            {
+              "description": "Manajemen Pemesanan: `/api/admin/bookings`.",
+              "completed": false
+            },
+            {
+              "description": "Manajemen Metode Pembayaran: `/api/admin/paymentmethods`.",
+              "completed": false
+            },
+            {
+              "description": "Manajemen Faktur: `/api/admin/invoices`.",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "3.5",
+          "title": "Manajemen Pembayaran",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Implementasikan fungsionalitas untuk menyetujui/menolak pembayaran.",
+              "completed": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "phaseId": 4,
+      "phaseName": "Komponen Umum & Finalisasi",
+      "tasks": [
+        {
+          "id": "4.1",
+          "title": "Library Komponen UI",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Buat komponen umum seperti Button, InputField, Card, Modal, dll.",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "4.2",
+          "title": "Penanganan Notifikasi (Opsional)",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Konfigurasi Expo Push Notifications.",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "4.3",
+          "title": "Pengujian Menyeluruh (End-to-End Testing)",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Uji semua alur dari sisi Customer dan Admin.",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "id": "4.4",
+          "title": "Build & Deploy",
+          "completed": false,
+          "subtasks": [
+            {
+              "description": "Konfigurasi EAS dan lakukan build untuk Android/iOS.",
+              "completed": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

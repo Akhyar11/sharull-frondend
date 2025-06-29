@@ -1,0 +1,1325 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Pemesanan Paket Perjalanan (User & Admin)",
+    "description": "Spesifikasi lengkap untuk semua API yang tersedia dalam aplikasi pemesanan paket perjalanan, mencakup autentikasi, fitur untuk pengguna, dan panel manajemen untuk admin.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "/api",
+      "description": "Server Development"
+    }
+  ],
+  "tags": [
+    {
+      "name": "0. Autentikasi & Publik",
+      "description": "Endpoint yang dapat diakses publik untuk login, registrasi, dan file."
+    },
+    {
+      "name": "1. Grup Pengguna",
+      "description": "Operasi yang dilakukan oleh pengguna terautentikasi."
+    },
+    {
+      "name": "2. Grup Admin",
+      "description": "Operasi yang memerlukan hak akses admin."
+    }
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": ["0. Autentikasi & Publik"],
+        "summary": "0.1. Login Admin",
+        "requestBody": { "$ref": "#/components/requestBodies/LoginBody" },
+        "responses": {
+          "200": { "$ref": "#/components/responses/LoginSuccess" },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "tags": ["0. Autentikasi & Publik"],
+        "summary": "0.2. Register Pengguna",
+        "requestBody": { "$ref": "#/components/requestBodies/RegisterBody" },
+        "responses": {
+          "201": { "$ref": "#/components/responses/UserCreated" },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "409": { "$ref": "#/components/responses/Conflict" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/file-proxy/{id}": {
+      "get": {
+        "tags": ["0. Autentikasi & Publik"],
+        "summary": "0.3. File Proxy (Berdasarkan ID)",
+        "parameters": [{ "$ref": "#/components/parameters/IdPath" }],
+        "responses": {
+          "200": { "$ref": "#/components/responses/ImageFile" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/file-proxy/fk/{id}": {
+      "get": {
+        "tags": ["0. Autentikasi & Publik"],
+        "summary": "0.4. File Proxy (Berdasarkan Foreign Key)",
+        "parameters": [{ "$ref": "#/components/parameters/IdPath" }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "images": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Image" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/file-proxy/fk/singel/{id}": {
+      "get": {
+        "tags": ["0. Autentikasi & Publik"],
+        "summary": "0.5. File Proxy (Berdasarkan Foreign Key Tunggal)",
+        "parameters": [{ "$ref": "#/components/parameters/IdPath" }],
+        "responses": {
+          "200": { "$ref": "#/components/responses/ImageFile" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/user/profile": {
+      "get": {
+        "tags": ["1. Grup Pengguna"],
+        "summary": "1.1.1. Lihat Profil",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "$ref": "#/components/schemas/User" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "put": {
+        "tags": ["1. Grup Pengguna"],
+        "summary": "1.1.2. Perbarui Profil",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/UserProfileUpdateBody"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": { "type": "string" },
+                    "data": { "$ref": "#/components/schemas/User" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/user/packages": {
+      "get": {
+        "tags": ["1. Grup Pengguna"],
+        "summary": "1.2.1. Daftar Paket",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/PageQuery" },
+          { "$ref": "#/components/parameters/LimitQuery" },
+          { "$ref": "#/components/parameters/SearchQuery" },
+          { "$ref": "#/components/parameters/OrderByQuery" }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PackageListResponse" }
+              }
+            }
+          },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/user/packages/{id}": {
+      "get": {
+        "tags": ["1. Grup Pengguna"],
+        "summary": "1.2.2. Detail Paket",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "$ref": "#/components/parameters/IdPath" }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/PackageWithDestinations"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/user/packages/{packageId}/schedules": {
+      "get": {
+        "tags": ["1. Grup Pengguna"],
+        "summary": "1.3.1. Daftar Jadwal per Paket",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "packageId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          { "$ref": "#/components/parameters/PageQuery" },
+          { "$ref": "#/components/parameters/LimitQuery" },
+          { "$ref": "#/components/parameters/OrderByQuery" }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScheduleListResponse"
+                }
+              }
+            }
+          },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/user/schedules/{id}": {
+      "get": {
+        "tags": ["1. Grup Pengguna"],
+        "summary": "1.3.2. Detail Jadwal",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "$ref": "#/components/parameters/IdPath" }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "$ref": "#/components/schemas/ScheduleDetail" }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/user/bookings": {
+      "get": {
+        "tags": ["1. Grup Pengguna"],
+        "summary": "1.4.1. Daftar Pemesanan Pengguna",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/PageQuery" },
+          { "$ref": "#/components/parameters/LimitQuery" },
+          { "$ref": "#/components/parameters/OrderByQuery" }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BookingListResponse" }
+              }
+            }
+          },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "post": {
+        "tags": ["1. Grup Pengguna"],
+        "summary": "1.4.3. Buat Pemesanan",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/CreateBookingBody"
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": { "type": "string" },
+                    "data": { "$ref": "#/components/schemas/Booking" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/user/bookings/{id}": {
+      "get": {
+        "tags": ["1. Grup Pengguna"],
+        "summary": "1.4.2. Detail Pemesanan",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "$ref": "#/components/parameters/IdPath" }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "$ref": "#/components/schemas/BookingDetail" }
+                  }
+                }
+              }
+            }
+          },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/user/payment-methods": {
+      "get": {
+        "tags": ["1. Grup Pengguna"],
+        "summary": "1.5.1. Daftar Metode Pembayaran",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "$ref": "#/components/parameters/OrderByQuery" }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "list": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/PaymentMethod" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/user/payments": {
+      "get": {
+        "tags": ["1. Grup Pengguna"],
+        "summary": "1.6.1. Daftar Pembayaran Pengguna",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/PageQuery" },
+          { "$ref": "#/components/parameters/LimitQuery" },
+          { "$ref": "#/components/parameters/OrderByQuery" }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PaymentListResponse" }
+              }
+            }
+          },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "post": {
+        "tags": ["1. Grup Pengguna"],
+        "summary": "1.6.3. Buat Pembayaran",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/CreatePaymentBody"
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": { "type": "string" },
+                    "data": { "$ref": "#/components/schemas/Payment" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/user/payments/{id}": {
+      "get": {
+        "tags": ["1. Grup Pengguna"],
+        "summary": "1.6.2. Detail Pembayaran",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "$ref": "#/components/parameters/IdPath" }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "$ref": "#/components/schemas/PaymentDetail" }
+                  }
+                }
+              }
+            }
+          },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/admin/users/list": {
+      "get": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.1.1. Daftar Pengguna",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "$ref": "#/components/parameters/PageQuery" },
+          { "$ref": "#/components/parameters/LimitQuery" },
+          { "$ref": "#/components/parameters/IdQuery" },
+          { "$ref": "#/components/parameters/NameQuery" },
+          { "$ref": "#/components/parameters/EmailQuery" },
+          { "name": "phone", "in": "query", "schema": { "type": "string" } },
+          { "name": "role", "in": "query", "schema": { "type": "string" } },
+          { "$ref": "#/components/parameters/OrderByQuery" }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminUserListResponse"
+                }
+              }
+            }
+          },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/admin/users": {
+      "post": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.1.2. Buat Pengguna",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/AdminCreateUserBody"
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": { "type": "string" },
+                    "data": { "$ref": "#/components/schemas/User" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/admin/users/{id}": {
+      "put": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.1.3. Perbarui Pengguna",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "$ref": "#/components/parameters/IdPath" }],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/AdminUpdateUserBody"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": { "type": "string" },
+                    "data": { "$ref": "#/components/schemas/User" }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      },
+      "delete": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.1.4. Hapus Pengguna",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "$ref": "#/components/parameters/IdPath" }],
+        "responses": {
+          "200": { "$ref": "#/components/responses/DeleteSuccess" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "500": { "$ref": "#/components/responses/InternalServerError" }
+        }
+      }
+    },
+    "/admin/destination/list": {
+      "get": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.2.1. Daftar Destinasi",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/admin/destination": {
+      "post": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.2.2. Buat Destinasi",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/admin/destination/{id}": {
+      "put": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.2.3. Perbarui Destinasi",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      },
+      "delete": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.2.4. Hapus Destinasi",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/admin/packages/list": {
+      "get": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.3.1. Daftar Paket",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/admin/packages": {
+      "post": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.3.2. Buat Paket",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/admin/packages/{id}": {
+      "put": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.3.3. Perbarui Paket",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      },
+      "delete": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.3.4. Hapus Paket",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/admin/fleets/list": {
+      "get": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.4.1. Daftar Armada",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/admin/fleets": {
+      "post": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.4.2. Buat Armada",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/admin/fleets/{id}": {
+      "put": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.4.3. Perbarui Armada",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      },
+      "delete": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.4.4. Hapus Armada",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/admin/packageschedules/list": {
+      "get": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.5.1. Daftar Jadwal Paket",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/admin/packageschedules": {
+      "post": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.5.2. Buat Jadwal Paket",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/admin/packageschedules/{id}": {
+      "put": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.5.3. Perbarui Jadwal Paket",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      },
+      "delete": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.5.4. Hapus Jadwal Paket",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/admin/bookings/list": {
+      "get": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.6.1. Daftar Pemesanan",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/admin/bookings": {
+      "post": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.6.2. Buat Pemesanan",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/admin/bookings/{id}": {
+      "put": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.6.3. Perbarui Pemesanan",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      },
+      "delete": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.6.4. Hapus Pemesanan",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/admin/paymentmethods/list": {
+      "get": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.7.1. Daftar Metode Pembayaran",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/admin/paymentmethods": {
+      "post": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.7.2. Buat Metode Pembayaran",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/admin/paymentmethods/{id}": {
+      "put": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.7.3. Perbarui Metode Pembayaran",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      },
+      "delete": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.7.4. Hapus Metode Pembayaran",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/admin/payments/list": {
+      "get": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.8.1. Daftar Pembayaran",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/admin/payments": {
+      "post": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.8.2. Buat Pembayaran",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/admin/payments/{id}": {
+      "put": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.8.3. Perbarui Pembayaran",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      },
+      "delete": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.8.4. Hapus Pembayaran",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/admin/payments/{id}/approve": {
+      "put": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.8.5. Setujui/Tolak Pembayaran",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/admin/invoices/list": {
+      "get": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.9.1. Daftar Faktur",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/admin/invoices": {
+      "post": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.9.2. Buat Faktur",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "201": { "description": "Created" } }
+      }
+    },
+    "/admin/invoices/{id}": {
+      "put": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.9.3. Perbarui Faktur",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      },
+      "delete": {
+        "tags": ["2. Grup Admin"],
+        "summary": "2.9.4. Hapus Faktur",
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "OK" } }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": { "msg": { "type": "string" } }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "email": { "type": "string" },
+          "role": { "type": "string" },
+          "phone": { "type": "string" },
+          "image_id": { "type": "string" },
+          "created_at": { "type": "string", "format": "date-time" },
+          "updated_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "AdminUserListItem": {
+        "type": "object",
+        "properties": {
+          "no": { "type": "integer" },
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "image_id": { "type": "string" },
+          "email": { "type": "string" },
+          "phone": { "type": "string" },
+          "role": { "type": "string" },
+          "created_at": { "type": "string" },
+          "updated_at": { "type": "string" }
+        }
+      },
+      "Image": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "FK": { "type": "string" },
+          "image_base64": { "type": "string" },
+          "created_at": { "type": "string" },
+          "updated_at": { "type": "string" }
+        }
+      },
+      "Destination": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "slug": { "type": "string" },
+          "description": { "type": "string" },
+          "location_point": { "type": "string" },
+          "province": { "type": "string" },
+          "city": { "type": "string" },
+          "country": { "type": "string" },
+          "category": { "type": "string" },
+          "popularity": { "type": "integer" },
+          "featured": { "type": "boolean" },
+          "image_id": { "type": "string" },
+          "gallery": { "type": "string" },
+          "average_rating": { "type": "number" },
+          "review_count": { "type": "integer" },
+          "is_active": { "type": "boolean" },
+          "meta_keywords": { "type": "string" },
+          "meta_description": { "type": "string" },
+          "created_at": { "type": "string" },
+          "updated_at": { "type": "string" }
+        }
+      },
+      "PackageCore": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "descriptions": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Description" }
+          },
+          "destination_ids": { "type": "array", "items": { "type": "string" } },
+          "price": { "type": "number" },
+          "created_at": { "type": "string" },
+          "updated_at": { "type": "string" }
+        }
+      },
+      "PackageWithDestinations": {
+        "allOf": [
+          { "$ref": "#/components/schemas/PackageCore" },
+          {
+            "type": "object",
+            "properties": {
+              "destinations": {
+                "type": "array",
+                "items": { "$ref": "#/components/schemas/Destination" }
+              }
+            }
+          }
+        ]
+      },
+      "Fleet": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "type": { "type": "string" },
+          "plate_number": { "type": "string" },
+          "capacity": { "type": "integer" },
+          "driver_name": { "type": "string" },
+          "status": { "type": "string" },
+          "created_at": { "type": "string" },
+          "updated_at": { "type": "string" }
+        }
+      },
+      "ScheduleCore": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "package_id": { "type": "string" },
+          "fleet_id": { "type": "string" },
+          "departure_date": { "type": "string" },
+          "return_date": { "type": "string" },
+          "departure_time": { "type": "string" },
+          "available_seats": { "type": "integer" },
+          "created_at": { "type": "string" },
+          "updated_at": { "type": "string" }
+        }
+      },
+      "ScheduleDetail": {
+        "allOf": [
+          { "$ref": "#/components/schemas/ScheduleCore" },
+          {
+            "type": "object",
+            "properties": {
+              "package_data": { "$ref": "#/components/schemas/PackageCore" },
+              "fleet_data": { "$ref": "#/components/schemas/Fleet" }
+            }
+          }
+        ]
+      },
+      "BookingCore": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "user_id": { "type": "string" },
+          "package_schedule_id": { "type": "string" },
+          "booking_date": { "type": "string" },
+          "number_of_seats": { "type": "integer" },
+          "total_price": { "type": "number" },
+          "payment_status": { "type": "string" },
+          "notes": { "type": "string" },
+          "created_at": { "type": "string" },
+          "updated_at": { "type": "string" }
+        }
+      },
+      "BookingDetail": {
+        "allOf": [
+          { "$ref": "#/components/schemas/BookingCore" },
+          {
+            "type": "object",
+            "properties": {
+              "package_data": { "$ref": "#/components/schemas/PackageCore" },
+              "schedule_data": { "$ref": "#/components/schemas/ScheduleCore" }
+            }
+          }
+        ]
+      },
+      "PaymentMethod": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "provider": { "type": "string" },
+          "type": { "type": "string" },
+          "account_number": { "type": "string" },
+          "account_name": { "type": "string" },
+          "is_active": { "type": "boolean" },
+          "created_at": { "type": "string" },
+          "updated_at": { "type": "string" }
+        }
+      },
+      "PaymentCore": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "booking_id": { "type": "string" },
+          "payment_method_id": { "type": "string" },
+          "payment_date": { "type": "string" },
+          "payment_amount": { "type": "number" },
+          "payment_proof": { "type": "string" },
+          "status": { "type": "string" },
+          "is_approved": { "type": "boolean" },
+          "approved_by": { "type": "string" },
+          "approved_at": { "type": "string" },
+          "created_at": { "type": "string" },
+          "updated_at": { "type": "string" }
+        }
+      },
+      "PaymentDetail": {
+        "allOf": [
+          { "$ref": "#/components/schemas/PaymentCore" },
+          {
+            "type": "object",
+            "properties": {
+              "payment_method": {
+                "$ref": "#/components/schemas/PaymentMethod"
+              },
+              "booking": { "$ref": "#/components/schemas/BookingCore" }
+            }
+          }
+        ]
+      },
+      "PackageListResponse": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/PackageWithDestinations" }
+          },
+          "total": { "type": "integer" },
+          "page": { "type": "integer" },
+          "limit": { "type": "integer" }
+        }
+      },
+      "ScheduleListResponse": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ScheduleDetail" }
+          },
+          "total": { "type": "integer" },
+          "page": { "type": "integer" },
+          "limit": { "type": "integer" }
+        }
+      },
+      "BookingListResponse": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/BookingDetail" }
+          },
+          "total": { "type": "integer" },
+          "page": { "type": "integer" },
+          "limit": { "type": "integer" }
+        }
+      },
+      "PaymentListResponse": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/PaymentDetail" }
+          },
+          "total": { "type": "integer" },
+          "page": { "type": "integer" },
+          "limit": { "type": "integer" }
+        }
+      },
+      "AdminUserListResponse": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/AdminUserListItem" }
+          },
+          "total": { "type": "integer" },
+          "page": { "type": "integer" },
+          "limit": { "type": "integer" }
+        }
+      }
+    },
+    "requestBodies": {
+      "LoginBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": { "type": "string" },
+                "password": { "type": "string" }
+              },
+              "required": ["email", "password"]
+            }
+          }
+        }
+      },
+      "RegisterBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "email": { "type": "string" },
+                "password": { "type": "string" },
+                "phone": { "type": "string" }
+              },
+              "required": ["name", "email", "password", "phone"]
+            }
+          }
+        }
+      },
+      "UserProfileUpdateBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "email": { "type": "string" },
+                "password": { "type": "string" },
+                "phone": { "type": "string" },
+                "image": { "type": "string", "format": "byte" }
+              }
+            }
+          }
+        }
+      },
+      "CreateBookingBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "schedule_id": { "type": "string" },
+                "number_of_people": { "type": "integer" },
+                "notes": { "type": "string" }
+              },
+              "required": ["schedule_id", "number_of_people"]
+            }
+          }
+        }
+      },
+      "CreatePaymentBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "booking_id": { "type": "string" },
+                "payment_method_id": { "type": "string" },
+                "amount": { "type": "number" },
+                "payment_proof": { "type": "string", "format": "byte" }
+              },
+              "required": [
+                "booking_id",
+                "payment_method_id",
+                "amount",
+                "payment_proof"
+              ]
+            }
+          }
+        }
+      },
+      "AdminCreateUserBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "email": { "type": "string" },
+                "password": { "type": "string" },
+                "phone": { "type": "string" },
+                "role": { "type": "string" }
+              },
+              "required": ["name", "email", "password", "phone", "role"]
+            }
+          }
+        }
+      },
+      "AdminUpdateUserBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "email": { "type": "string" },
+                "password": { "type": "string" },
+                "phone": { "type": "string" },
+                "role": { "type": "string" },
+                "image": { "type": "string", "format": "byte" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "LoginSuccess": {
+        "description": "Login Successful",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "msg": { "type": "string" },
+                "token": { "type": "string" },
+                "data": { "$ref": "#/components/schemas/User" }
+              }
+            }
+          }
+        }
+      },
+      "UserCreated": {
+        "description": "Created",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/User" }
+          }
+        }
+      },
+      "DeleteSuccess": {
+        "description": "OK",
+        "content": {
+          "application/json": {
+            "schema": { "properties": { "msg": { "type": "string" } } }
+          }
+        }
+      },
+      "ImageFile": {
+        "description": "OK",
+        "content": {
+          "image/*": { "schema": { "type": "string", "format": "binary" } }
+        }
+      },
+      "BadRequest": {
+        "description": "Bad Request",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Forbidden",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Not Found",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "Conflict": {
+        "description": "Conflict",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "Internal Server Error",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "IdPath": {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string" }
+      },
+      "PageQuery": {
+        "name": "page",
+        "in": "query",
+        "schema": { "type": "integer", "default": 1 }
+      },
+      "LimitQuery": {
+        "name": "limit",
+        "in": "query",
+        "schema": { "type": "integer", "default": 10 }
+      },
+      "SearchQuery": {
+        "name": "search",
+        "in": "query",
+        "schema": { "type": "string" }
+      },
+      "OrderByQuery": {
+        "name": "orderBy",
+        "in": "query",
+        "schema": { "type": "string" }
+      },
+      "IdQuery": {
+        "name": "id",
+        "in": "query",
+        "schema": { "type": "string" }
+      },
+      "NameQuery": {
+        "name": "name",
+        "in": "query",
+        "schema": { "type": "string" }
+      },
+      "EmailQuery": {
+        "name": "email",
+        "in": "query",
+        "schema": { "type": "string" }
+      }
+    }
+  }
+}
