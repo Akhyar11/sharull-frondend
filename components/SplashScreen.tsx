@@ -1,11 +1,11 @@
 import { useAuth } from "@/context/AuthContext";
 import React, { useEffect, useRef } from "react";
-import { Animated, Dimensions, Text, View } from "react-native";
+import { Animated, Text, View } from "react-native";
 
-const { width, height } = Dimensions.get("window");
+
 
 export default function SplashScreen() {
-  const { checkAuthStatus, isLoading } = useAuth();
+  const { checkAuthStatus } = useAuth();
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.3)).current;
   const slideAnim = useRef(new Animated.Value(50)).current;
@@ -36,7 +36,7 @@ export default function SplashScreen() {
     };
 
     initializeApp();
-  }, []);
+  }, [checkAuthStatus, fadeAnim, scaleAnim, slideAnim]);
 
   return (
     <View className="flex-1 bg-gradient-to-b from-primary-500 to-primary-700 justify-center items-center">
