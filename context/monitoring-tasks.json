@@ -1,10 +1,10 @@
 {
-  "lastUpdated": "2025-01-27T10:30:00Z",
+  "lastUpdated": "2025-01-27T11:00:00Z",
   "summary": {
     "totalTasks": 26,
-    "completed": 4,
+    "completed": 5,
     "inProgress": 1,
-    "pending": 21
+    "pending": 20
   },
   "tasks": [
     {
@@ -40,14 +40,14 @@
       "title": "Implementasi Alur Berbasis Peran (Role-Based Routing)",
       "phase": "Penyiapan Proyek & Fondasi",
       "priority": "high",
-      "status": "in-progress"
+      "status": "completed"
     },
     {
       "id": "1.1",
       "title": "Layar Splash (Splash Screen)",
       "phase": "Alur Autentikasi & Publik",
       "priority": "high",
-      "status": "pending"
+      "status": "in-progress"
     },
     {
       "id": "1.2",
