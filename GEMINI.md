@@ -8,6 +8,13 @@ Asumsi: Jangan membuat asumsi secara mandiri. Semua keputusan pengembangan harus
 
 Referensi Dependensi: Selalu periksa file package.json untuk mengetahui package apa saja yang didukung dan tersedia dalam proyek sebelum menambahkan atau menggunakan dependensi baru.
 
+Referensi ke folder context:
+
+- UI.json
+- API.json
+- taks.json
+- monitoring-taks.json
+
 Output Akhir: Selalu berikan hasil akhir secara lengkap, termasuk struktur folder dan semua file yang relevan.
 
 2. Alur Kerja & Struktur Proyek

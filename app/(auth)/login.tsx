@@ -10,9 +10,9 @@ export default function LoginScreen() {
       <Stack.Screen options={{ headerShown: false }} />
       <Text className="text-2xl font-bold mb-4">Login</Text>
       <View className="mb-4">
-        <Button title="Login as Customer" onPress={() => login('customer')} />
+        <Button title="Login as Customer" onPress={() => login('customer@example.com', 'password123')} />
       </View>
-      <Button title="Login as Admin" onPress={() => login('admin')} />
+      <Button title="Login as Admin" onPress={() => login('admin@example.com', 'adminpassword')} />
     </View>
   );
 }

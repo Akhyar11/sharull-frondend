@@ -1,9 +1,6 @@
 import { useAuth } from "@/context/AuthContext";
-import {
-  apiService,
-  BookingDetail,
-  PackageWithDestinations,
-} from "@/services/api";
+import api from "@/services/api";
+import { BookingDetail, PackageWithDestinations, Destination } from "@/types/api";
 import { Href, router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
@@ -33,22 +30,26 @@ export default function CustomerHomeScreen() {
       setLoading(true);
 
       // Load featured packages (limit to 3)
-      const packagesResponse = await apiService.getPackages({
-        limit: 3,
-        orderBy: "created_at DESC",
+      const packagesResponse = await api.get('/user/packages', {
+        params: {
+          limit: 3,
+          orderBy: "created_at DESC",
+        },
       });
 
-      if (packagesResponse.data) {
+      if (packagesResponse.data && packagesResponse.data.list) {
         setFeaturedPackages(packagesResponse.data.list);
       }
 
       // Load recent bookings (limit to 2)
-      const bookingsResponse = await apiService.getBookings({
-        limit: 2,
-        orderBy: "created_at DESC",
+      const bookingsResponse = await api.get('/user/bookings', {
+        params: {
+          limit: 2,
+          orderBy: "created_at DESC",
+        },
       });
 
-      if (bookingsResponse.data) {
+      if (bookingsResponse.data && bookingsResponse.data.list) {
         setRecentBookings(bookingsResponse.data.list);
       }
     } catch (error) {
@@ -152,9 +153,7 @@ export default function CustomerHomeScreen() {
                       pkg.destinations[0].image_id && (
                         <Image
                           source={{
-                            uri: apiService.getImage(
-                              pkg.destinations[0].image_id
-                            ),
+                            uri: `/file-proxy/${pkg.destinations[0].image_id}`,
                           }}
                           className="w-20 h-20 rounded-lg"
                           resizeMode="cover"
@@ -165,7 +164,7 @@ export default function CustomerHomeScreen() {
                         {pkg.name}
                       </Text>
                       <Text className="text-gray-600 text-sm mb-2">
-                        {pkg.destinations.map((d) => d.name).join(", ")}
+                        {pkg.destinations.map((d: Destination) => d.name).join(", ")}
                       </Text>
                       <Text className="text-primary-500 font-bold">
                         {formatPrice(pkg.price)}

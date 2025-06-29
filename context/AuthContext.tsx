@@ -8,18 +8,7 @@ import React, {
   useState,
 } from "react";
 
-export type UserRole = "customer" | "admin" | null;
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: UserRole;
-  phone?: string;
-  avatar?: string | null;
-  createdAt?: string;
-  lastLogin?: string;
-}
+import { User, UserRole } from "../types/api";
 
 interface AuthContextType {
   user: User | null;
@@ -109,7 +98,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const validateToken = async (token: string): Promise<boolean> => {
     try {
-      try {
       const response = await api.get('/user/profile');
       return response.status === 200;
     } catch (error) {
@@ -172,11 +160,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(true);
       setError(null);
 
-      try {
-        const response = await api.post('/login', { email, password });
+      const response = await api.post('/login', { email, password });
 
-        if (response.data.token && response.data.data) {
-          const { token: newToken, data: userData } = response.data;
+      if (response.data.token && response.data.data) {
+        const { token: newToken, data: userData } = response.data;
 
         await AsyncStorage.setItem("authToken", newToken);
         await AsyncStorage.setItem("userData", JSON.stringify(userData));
@@ -205,11 +192,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(true);
       setError(null);
 
-      try {
-        const response = await api.post('/register', userData);
+      const response = await api.post('/register', userData);
 
-        if (response.data.token && response.data.data) {
-          const { token: newToken, data: newUser } = response.data;
+      if (response.data.token && response.data.data) {
+        const { token: newToken, user: newUser } = response.data;
 
         await AsyncStorage.setItem("authToken", newToken);
         await AsyncStorage.setItem("userData", JSON.stringify(newUser));

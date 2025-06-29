@@ -1,9 +1,9 @@
 {
-  "lastUpdated": "2025-06-29T10:30:00Z",
+  "lastUpdated": "2025-06-29T11:00:00Z",
   "summary": {
     "totalTasks": 27,
-    "completed": 11,
-    "inProgress": 1,
+    "completed": 12,
+    "inProgress": 0,
     "pending": 15
   },
   "tasks": [
@@ -82,7 +82,7 @@
       "title": "Layar Beranda (Home Screen)",
       "phase": "Alur Pelanggan",
       "priority": "medium",
-      "status": "in-progress"
+      "status": "completed"
     },
     {
       "id": "2.3",
